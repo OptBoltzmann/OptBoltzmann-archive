@@ -1,17 +1,16 @@
 import unittest
 
-import libsbml
+import simplesbml
 
 from mentos.maximum_entropy import get_params, maximum_entropy_pyomo_relaxed
 
 
 class TestMaximumEntropy(unittest.TestCase):
     def setUp(self):
-        r = libsbml.SBMReader()
-        sbml = r.readSBML("../models/sbml/split_pathway.xml")
-        n_ini, y_ini, beta_ini, target_log_vcounts, f_log_counts, S, K, obj_rxn_idx = get_params(
-            sbml
-        )
+        self.model = simplesbml.loadSBMLFile("../models/sbml/split_pathway.xml")
 
     def test_maximum_entropy_pyomo_relaxed(self):
         maximum_entropy_pyomo_relaxed()
+
+    def test_get_nullspace(self):
+        
