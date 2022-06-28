@@ -140,8 +140,9 @@ def get_params(model: simplesbml.SbmlModel):
                                    for floating_species_id in model.getListOfFloatingSpecies()]
                                    index=list(model.getListOfFloatingSpecies()))
 
-    f_log_counts = np.array([model.getSpeciesInitialAmount(fixed_species_id)
-                             for fixed_species_id in model.getListOfBoundarySpecies()])
+    f_log_counts = pd.Series([model.getSpeciesInitialAmount(fixed_species_id)
+                             for fixed_species_id in model.getListOfBoundarySpecies()],
+                             index=list(model.getListOfBoundarySpecies()))
     model_fbc = model.model.getPlugin("fbc")
     rxn_idx, obj = zip( [(fluxobj.getReaction(), fluxobj.getCoefficient())
                    for fluxobj in model_fbc.getActiveObjective().getListOfFluxObjectives()])
