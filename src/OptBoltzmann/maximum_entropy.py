@@ -376,13 +376,14 @@ def maximum_entropy_pyomo_relaxed(
     # Set the Constraints
     #############################
 
-    # flux null space representation constraint
     def flux_null_rep(m, i):
+        """ flux null space representation constraint"""
         return m.y[i] == sum(m.SvN[(i, j)] * m.beta[j] for j in m.beta_idx)
 
     m.fxnrep_cns = pe.Constraint(m.react_idx, rule=flux_null_rep)
 
     def steady_state_metab(m, j):
+        """steady state metabolism constraint"""
         return m.b[j] == sum(m.S[(k, j)] * m.VarM[k] for k in m.VarM_idx) + sum(
             m.S[(k, j)] * m.FxdM[k] for k in m.FxdM_idx
         )
@@ -390,6 +391,7 @@ def maximum_entropy_pyomo_relaxed(
     m.ssM_cns = pe.Constraint(m.react_idx, rule=steady_state_metab)
 
     def num_smooth_cns(m, i):
+        """Number of smooth constraints"""
         return m.h[i] == (m.y[i] * 1e50 / (abs(m.y[i]) * 1e50 + 1e-50)) * (
             pe.log(2) - pe.log(abs(m.y[i]) + pe.sqrt(m.y[i] ** 2 + 4))
         )
@@ -403,32 +405,38 @@ def maximum_entropy_pyomo_relaxed(
     Mb = 1000
 
     def relaxed_reg_cns_upper(m, i):
+        """Relaxed upper regulatory constraints"""
         return (m.b[i] - pe.log(m.K[i])) >= m.h[i] - Mb * (m.u[i])
 
     m.rxr_cns_up = pe.Constraint(m.react_idx, rule=relaxed_reg_cns_upper)
 
     def relaxed_reg_cns_lower(m, i):
+        """Relaxed lower regulatory constraints"""
         return (m.b[i] - pe.log(m.K[i])) <= m.h[i] + Mb * (1 - m.u[i])
 
     m.rxr_cns_low = pe.Constraint(m.react_idx, rule=relaxed_reg_cns_lower)
 
     def sign_constraint(m, i):
+        """Signed constraints"""
         return (pe.log(m.K[i]) - m.b[i]) * m.y[i] >= 0
 
     m.sign_y_cns = pe.Constraint(m.react_idx, rule=sign_constraint)
 
     def y_sign_relax(m, i):
+        """Relaxed Flux constraints"""
         return 2 * m.u[i] - 1 == (m.y[i] / (abs(m.y[i]) + 1e-50))
 
     m.y_sign_relax_cns = pe.Constraint(m.react_idx, rule=y_sign_relax)
 
     # Variable metabolite upper and lower bounds
     def M_upper_cnstrnts(m, i):
+        """Upper constraints on big-M"""
         return m.VarM[i] <= m.VarM_ubnd[i]
 
     m.VarM_ub_cns = pe.Constraint(m.VarM_idx, rule=M_upper_cnstrnts)
 
     def M_lower_cnstrnts(m, i):
+        """"Lower constraints on big-M"""
         return m.VarM[i] >= VarM_lbnd
 
     m.VarM_lb_cns = pe.Constraint(m.VarM_idx, rule=M_lower_cnstrnts)
@@ -438,6 +446,9 @@ def maximum_entropy_pyomo_relaxed(
     # Maximum Entropy Production Objective with subset of reactions obj_rxn_idx
 
     def _Obj(m):
+        """"Set the Objective function
+
+    # Maximum Entropy Production Objective with subset of reactions obj_rxn_idx"""
         # return sum( m.y[j]  *  ( pe.log(m.K[j]) + sum( -m.S[(k,j)]*m.VarM[k] for k in m.VarM_idx ) + sum( -m.S[(w,j)]*m.FxdM[w] for w in m.FxdM_idx )    )    for j in m.obj_rxn_idx )
         ##sum_y = sum( m.y[j]  for j in m.obj_rxn_idx )
         ##return sum( (1 - m.y[j]/sum_y)*m.y[j]  for j in m.obj_rxn_idx )
@@ -505,6 +516,7 @@ def maximum_entropy_pyomo_relaxed(
 
 
 def rxn_flux(v_log_counts, f_log_counts, S, K, E_regulation):
+    """Compute initial reaction fluxes"""
     # Flip Stoichiometric Matrix
     S_T = S  # S_T is the Stoich matrix with rows as reactions, columns as metabolites
     S = np.transpose(

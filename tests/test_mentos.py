@@ -6,7 +6,9 @@ from mentos.maximum_entropy import get_params, maximum_entropy_pyomo_relaxed
 
 
 class TestMaximumEntropy(unittest.TestCase):
+    """Test that Maximum entropy methods work correctly"""
     def setUp(self):
+        """Load test models"""
         self.model = simplesbml.loadSBMLFile("../models/sbml/split_pathway.xml")
 
     def test_maximum_entropy_pyomo_relaxed(self):
