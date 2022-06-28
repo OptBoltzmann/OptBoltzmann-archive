@@ -28,15 +28,13 @@ def get_nullspace(A, atol=1e-13, rtol=0):
     The algorithm used by this function is based on the singular value
     decomposition of `A`.
 
-    Parameters
-    ----------
-    A : ndarray
+    :param A: ndarray
         A should be at most 2-D.  A 1-D array with length k will be treated
         as a 2-D with shape (1, k)
-    atol : float
+    :param atol: float
         The absolute tolerance for a zero singular value.  Singular values
         smaller than `atol` are considered to be zero.
-    rtol : float
+    :param rtol : float
         The relative tolerance.  Singular values less than rtol*smax are
         considered to be zero, where smax is the largest singular value.
 
@@ -47,7 +45,7 @@ def get_nullspace(A, atol=1e-13, rtol=0):
 
     Return value
     ------------
-    ns : ndarray
+    :returns: ns ndarray
         If `A` is an array with shape (m, k), then `ns` will be an array
         with shape (k, n), where n is the estimated dimension of the
         nullspace of `A`.  The columns of `ns` are a basis for the
