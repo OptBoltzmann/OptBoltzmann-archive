@@ -20,7 +20,7 @@ import pyutilib.services
 from pyomo.opt import TerminationCondition
 
 
-def nullspace(A, atol=1e-13, rtol=0):
+def get_nullspace(A, atol=1e-13, rtol=0):
     """Compute an approximate basis for the nullspace of A.
 
     The algorithm used by this function is based on the singular value
@@ -94,7 +94,62 @@ def get_stoichiometric_matrix(model: simplesbml.SBMLModel):
                                 index=model.getListOfSpecies())
 
 
+def get_random_initial_variable_concentrations(model: simplesbml.SbmlModel) -> pd.Series:
+    """get vector of initial concnetraions of variable metabolites
+    :param model: simplesbml.SbmlModel
+    :returns: a random vector of initial concentration of size numFloatingSpecies
+    """
+    return pd.Series(nprd.rand(model.getNumFloatingSpecies()), index=model.getListOfFloatingSpecies())
 
+
+def get_random_initial_fluxes(model: simplesbml.SbmlModel) -> pd.Series:
+    """get vector of initial fluxes
+    :param model: simplesbml.SbmlModel
+    :returns: a random vector of initial fluxes of size numReactions
+    """
+    return pd.Series(nprd.rand(model.getNumReactions()), index=model.getListOfReactions())
+
+def get_standard_change_in_gibbs_free_energy( model: simplesbml) -> pd.Series:
+    """get standard change in Gibbs free energy
+    :param model: simplesbml.SbmlModel
+    :returns: pd.Series of change in Gibbs free energy stored as parameters"""
+     return pd.Series([model.getParameterValue(parameter_id) for parameter_id in model.getListOfParameterIds() ],
+                     index=model.getListOfParameterIds())
+
+def get_initial_beta( nullspace: pd.DataFrame ) -> pd.DataFrame:
+    r"""get initial beta matrix, where :math:`y=B\beta` for a :math:`\beta\in\mathbb{R}^m`
+    :param nullspace: nullspace of stoichiometric matrix
+    :returns: random matrix of the size of the nullspace
+    """
+    return nprd.rand(*nullspace.shape)
+
+def get_target_log_variable_counts( model: simplesbml.SbmlModel) -> pd.Series:
+    """get target log variable counts
+    :param model: simplesbml.SbmlModel
+    :returns: pd.Series target log variable counts extracted from species initial amounts.
+    """
+    return pd.Series([model.getSpeciesInitialAmount(floating_species_id)
+                                   for floating_species_id in model.getListOfFloatingSpecies()]
+                                   index=list(model.getListOfFloatingSpecies())) 
+
+def get_fixed_log_counts( model: simplesbml.SbmlModel) -> pd.Series:
+    """Get fixed log counts
+    :param model: simplesbml.SbmlModel
+    :returns: Pandas Series containing inital amounts from boundary species
+    """
+    return pd.Series([model.getSpeciesInitialAmount(fixed_species_id)
+                             for fixed_species_id in model.getListOfBoundarySpecies()],
+                             index=list(model.getListOfBoundarySpecies()))
+
+def get_objective_reaction_identifiers( model: simplesbml.SbmlModel) -> pd.Series:
+    """Get objective coefficients of reaction identifiers
+    :param model: simplesbml.SbmlModel
+    :returns: pandas Series containing the reaction ids with nonzero objective coefficients
+    """
+    model_fbc = model.model.getPlugin("fbc")
+    rxn_idx, obj = zip( [(fluxobj.getReaction(), fluxobj.getCoefficient())
+                   for fluxobj in model_fbc.getActiveObjective().getListOfFluxObjectives()])
+    return pd.Series(obj, index=rxn_idx)
 
 def get_params(model: simplesbml.SbmlModel):
     """
@@ -111,33 +166,18 @@ def get_params(model: simplesbml.SbmlModel):
     :returns obj_rxn_idx: indices of the reactions that are included in the objective function. Currently these are the
         reactions forming proteins, RNA and DNA.
     """
-    n_ini = nprd.rand(model.getNumFloatingSpecies())
-    y_ini = nprd.rand(model.getNumReactions())
-    K = pd.Series([model.getParameterValue(parameter_id) for parameter_id in model.getListOfParameterIds() ],
-                     index=model.getListOfParameterIds())
-    ns = nullspace(S.loc[model.getListOfFloatingSpecies()])  # Nullspace of nfloatingspecies x nrxns
-    beta_ini = nprd.rand(*ns.shape)
-    target_log_vcounts = pd.Series([model.getSpeciesInitialAmount(floating_species_id)
-                                   for floating_species_id in model.getListOfFloatingSpecies()]
-                                   index=list(model.getListOfFloatingSpecies()))
+    return dict(
+        n_ini = get_random_initial_variable_concentrations( model ),
+        y_ini = get_random_initial_fluxes( model ),
+        K = get_standard_change_in_gibbs_free_energy( model ),
+        S = get_stoichiometric_matrix( model ),
+        nullspace =  get_nullspace( S.loc[model.getListOfFloatingSpecies()] ),  # Nullspace of nfloatingspecies x nrxns
+        beta_ini = get_initial_beta( nullspace ),
+        target_log_vcounts = get_target_log_variable_counts( model ),
+        f_log_counts = get_fixed_log_counts( model ),
+        obj_rxn_idx = get_objective_reaction_identifiers( model )
+    )
 
-    f_log_counts = pd.Series([model.getSpeciesInitialAmount(fixed_species_id)
-                             for fixed_species_id in model.getListOfBoundarySpecies()],
-                             index=list(model.getListOfBoundarySpecies()))
-    model_fbc = model.model.getPlugin("fbc")
-    rxn_idx, obj = zip( [(fluxobj.getReaction(), fluxobj.getCoefficient())
-                   for fluxobj in model_fbc.getActiveObjective().getListOfFluxObjectives()])
-    obj_rxn_idx = pd.Series(obj, index=rxn_idx)
-    return dict(model=model,
-                n_ini=n_ini,
-                y_ini = y_ini,
-                beta_ini = beta_ini,
-                target_log_vcounts=target_log_vcounts,
-                f_log_counts=f_log_counts,
-                S=S,
-                K=K,
-                obj_rxn_idx = obj_rxn_idx
-                )
 
 
 def maximum_entropy_pyomo_relaxed(n_ini,y_ini,beta_ini,target_log_vcounts, f_log_counts, S, K,obj_rxn_idx):
