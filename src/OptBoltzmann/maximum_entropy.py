@@ -2,7 +2,8 @@
 """
 Created on Mon Feb 25 2021
 
-@author: ethan king
+@author: Ethan King
+@author: Jeremy Zucker
 """
 
 import itertools
