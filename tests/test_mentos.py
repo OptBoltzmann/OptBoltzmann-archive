@@ -32,4 +32,3 @@ class TestMaximumEntropy(unittest.TestCase):
         """Ensure the flux objective coefficients are extracted from the sbml file correctly"""
     def test_get_params(self):
         """Ensure all parameters are accepted by maximum entropy pyomo"""
-    def test_
