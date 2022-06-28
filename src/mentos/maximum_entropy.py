@@ -60,7 +60,35 @@ def nullspace(A, atol=1e-13, rtol=0):
     ns = vh[nnz:].conj().T
     return ns
 
-def get_stoichiometric_matrix( model: simplesbml.SBMLModel ):
+
+def get_stoichiometric_matrix(model: simplesbml.SBMLModel):
+    # Allocate space for the stoichiometry matrix
+    stoich = np.zeros((model.getNumSpecies(), model.getNumReactions()))
+    for i in range(model.getNumSpecies()):
+        speciesId = model.getNthSpeciesId(i)
+
+        for j in range(model.getNumReactions()):
+            productStoichiometry = 0;
+            reactantStoichiometry = 0
+
+            numProducts = model.getNumProducts(j)
+            for k1 in range(numProducts):
+                productId = model.getProduct(j, k1)
+
+                if (speciesId == productId):
+                    productStoichiometry += model.getProductStoichiometry(j, k1)
+
+            numReactants = model.getNumReactants(j)
+            for k1 in range(numReactants):
+                reactantId = model.getReactant(j, k1)
+                if (speciesId == reactantId):
+                    reactantStoichiometry += model.getReactantStoichiometry(j, k1)
+
+            st = int(productStoichiometry - reactantStoichiometry)
+            stoich[i, j] = st
+
+
+def get_variable_stoichiometric_matrix( model: simplesbml.SBMLModel, metabolites='floating' ):
     # Allocate space for the stoichiometry matrix
     stoich = np.zeros((model.getNumFloatingSpecies(), model.getNumReactions()))
     for i in range(model.getNumFloatingSpecies()):
@@ -87,7 +115,7 @@ def get_stoichiometric_matrix( model: simplesbml.SBMLModel ):
             stoich[i, j] = st
     return pd.DataFrame(stoich, columns=model.getListOfReactions(), index=model.getListOfSpecies())
 
-def get_params(sbml: libsbml.SBMLDocument):
+def get_params(model: simplesbml.SbmlModel):
     """
     :param sbml: libsbml.SBMLDocument
     :returns n_ini: vector of initial concentrations of variable metabolites.
@@ -102,18 +130,22 @@ def get_params(sbml: libsbml.SBMLDocument):
     :returns obj_rxn_idx: indices of the reactions that are included in the objective function. Currently these are the
         reactions forming proteins, RNA and DNA.
     """
-    model = sbml.getModel()
-    n_ini = pd.DataFrame([model.getSpeciesInitialAmount(variable_species_id) for variable_species_id in model.getListofFloatingSpecies() ])
+    n_ini = nprd.rand(model.getNumFloatingSpecies())
     y_ini = nprd.rand(model.getNumReactions())
-    S = get_stoichiometric_matrix(model)
     K = pd.Series([model.getParameterValue(parameter_id) for parameter_id in model.getListOfParameterIds() ],
                      index=model.getListOfParameterIds())
-    ns = nullspace(S)  # Nullspace of nmetabs x nrxns
+    ns = nullspace(S.loc[model.getListOfFloatingSpecies()])  # Nullspace of nfloatingspecies x nrxns
     beta_ini = nprd.rand(*ns.shape)
-    target_log_vcounts = nprd.rand(model.getNumFloatingSpecies())
-    f_log_counts = np.array([model.getSpeciesInitialAmount(fixed_species_id) for fixed_species_id in model.getListOfBoundarySpecies()])
+    target_log_vcounts = pd.Series([model.getSpeciesInitialAmount(floating_species_id)
+                                   for floating_species_id in model.getListOfFloatingSpecies()]
+                                   index=list(model.getListOfFloatingSpecies()))
+
+    f_log_counts = np.array([model.getSpeciesInitialAmount(fixed_species_id)
+                             for fixed_species_id in model.getListOfBoundarySpecies()])
     model_fbc = model.model.getPlugin("fbc")
-    obj_rxn_idx = [fluxobj.getReaction()  fluxobj in model_fbc.getActiveObjective().getListOfFluxObjectives()]
+    rxn_idx, obj = zip( [(fluxobj.getReaction(), fluxobj.getCoefficient())
+                   for fluxobj in model_fbc.getActiveObjective().getListOfFluxObjectives()])
+    obj_rxn_idx = pd.Series(obj, index=rxn_idx)
     return dict(model=model,
                 n_ini=n_ini,
                 y_ini = y_ini,
@@ -122,7 +154,7 @@ def get_params(sbml: libsbml.SBMLDocument):
                 f_log_counts=f_log_counts,
                 S=S,
                 K=K,
-                obj_rxn_idx
+                obj_rxn_idx = obj_rxn_idx
                 )
 
 
