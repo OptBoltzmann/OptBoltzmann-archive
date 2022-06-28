@@ -10,8 +10,7 @@ class TestMaximumEntropy(unittest.TestCase):
         self.model = simplesbml.loadSBMLFile("../models/sbml/split_pathway.xml")
 
     def test_maximum_entropy_pyomo_relaxed(self):
-        maximum_entropy_pyomo_relaxed()
-
+        """Test against analytic solution"""
     def test_get_nullspace(self):
         """Make sure the nullspace is computed correctly"""
     def test_get_stoichiometric_matrix(self):
