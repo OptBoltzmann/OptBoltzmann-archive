@@ -62,6 +62,10 @@ def nullspace(A, atol=1e-13, rtol=0):
 
 
 def get_stoichiometric_matrix(model: simplesbml.SBMLModel):
+    """Allocate space for the stoichiometric matrix
+    :param model: simplesbml.SBMLModel
+    :return stoich: a Dataframe with nrxn columns and nspecies index.
+    """
     # Allocate space for the stoichiometry matrix
     stoich = np.zeros((model.getNumSpecies(), model.getNumReactions()))
     for i in range(model.getNumSpecies()):
@@ -86,34 +90,11 @@ def get_stoichiometric_matrix(model: simplesbml.SBMLModel):
 
             st = int(productStoichiometry - reactantStoichiometry)
             stoich[i, j] = st
+            return pd.DataFrame(stoich, columns=model.getListOfReactions(),
+                                index=model.getListOfSpecies())
 
 
-def get_variable_stoichiometric_matrix( model: simplesbml.SBMLModel, metabolites='floating' ):
-    # Allocate space for the stoichiometry matrix
-    stoich = np.zeros((model.getNumFloatingSpecies(), model.getNumReactions()))
-    for i in range(model.getNumFloatingSpecies()):
-        floatingSpeciesId = model.getNthFloatingSpeciesId(i)
 
-        for j in range(model.getNumReactions()):
-            productStoichiometry = 0;
-            reactantStoichiometry = 0
-
-            numProducts = model.getNumProducts(j)
-            for k1 in range(numProducts):
-                productId = model.getProduct(j, k1)
-
-                if (floatingSpeciesId == productId):
-                    productStoichiometry += model.getProductStoichiometry(j, k1)
-
-            numReactants = model.getNumReactants(j)
-            for k1 in range(numReactants):
-                reactantId = model.getReactant(j, k1)
-                if (floatingSpeciesId == reactantId):
-                    reactantStoichiometry += model.getReactantStoichiometry(j, k1)
-
-            st = int(productStoichiometry - reactantStoichiometry)
-            stoich[i, j] = st
-    return pd.DataFrame(stoich, columns=model.getListOfReactions(), index=model.getListOfSpecies())
 
 def get_params(model: simplesbml.SbmlModel):
     """
