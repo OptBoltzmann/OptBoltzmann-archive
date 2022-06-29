@@ -3,11 +3,11 @@
   <model metaid="meta_example0" id="example0" fbc:strict="true">
     <listOfUnitDefinitions>
       <unitDefinition id="mmol_per_gDW_per_hr">
-        <listOfUnits>
-          <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
-          <unit kind="gram" exponent="-1" scale="0" multiplier="1"/>
-          <unit kind="second" exponent="-1" scale="0" multiplier="3600"/>
-        </listOfUnits>
+	<listOfUnits>
+	  <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+	  <unit kind="gram" exponent="-1" scale="0" multiplier="1"/>
+	  <unit kind="second" exponent="-1" scale="0" multiplier="3600"/>
+	</listOfUnits>
       </unitDefinition>
     </listOfUnitDefinitions>
     <listOfCompartments>
@@ -42,166 +42,117 @@
     </listOfParameters>
     <listOfReactions>
       <reaction metaid="meta_R_EX_A" sboTerm="SBO:0000627" id="R_EX_A" name="EX_A" reversible="true" fast="false" fbc:lowerFluxBound="R_EX_A_lower_bound" fbc:upperFluxBound="R_EX_A_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_A" stoichiometry="1" constant="true"/>
-        </listOfReactants>
+	<listOfReactants>
+	  <speciesReference species="M_A" stoichiometry="1" constant="true"/>
+	</listOfReactants>
       </reaction>
       <reaction metaid="meta_R_EX_D" sboTerm="SBO:0000627" id="R_EX_D" name="EX_D" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R_EX_D_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_D" stoichiometry="1" constant="true"/>
-        </listOfReactants>
+	<listOfReactants>
+	  <speciesReference species="M_D" stoichiometry="1" constant="true"/>
+	</listOfReactants>
       </reaction>
       <reaction id="R__J0" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J0_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_A" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_B" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_A" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_B" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J1" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J1_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_B" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_A" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_B" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_A" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J2" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J2_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_B" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_C" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_B" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_C" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J3" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J3_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_C" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_B" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_C" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_B" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J4" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J4_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_C" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_D" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_C" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_D" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J5" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J5_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_D" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_C" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_D" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_C" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J6" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J6_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_A" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_E" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_A" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_E" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J7" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J7_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_E" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_A" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_E" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_A" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J8" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J8_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_E" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_D" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_E" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_D" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
       <reaction id="R__J9" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="R__J9_upper_bound">
-        <listOfReactants>
-          <speciesReference species="M_D" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="M_E" stoichiometry="1" constant="true"/>
-        </listOfProducts>
+	<listOfReactants>
+	  <speciesReference species="M_D" stoichiometry="1" constant="true"/>
+	</listOfReactants>
+	<listOfProducts>
+	  <speciesReference species="M_E" stoichiometry="1" constant="true"/>
+	</listOfProducts>
       </reaction>
     </listOfReactions>
-    <fbc:listOfObjectives fbc:activeObjective="obj">
+    <fbc:listOfObjectives fbc:activeObjective="OptBoltzmann">
       <fbc:objective fbc:id="obj" fbc:type="maximize">
-        <fbc:listOfFluxObjectives>
-          <fbc:fluxObjective fbc:reaction="R_EX_D" fbc:coefficient="1"/>
-        </fbc:listOfFluxObjectives>
+	<fbc:listOfFluxObjectives>
+	  <fbc:fluxObjective fbc:reaction="R_EX_D" fbc:coefficient="1"/>
+	</fbc:listOfFluxObjectives>
       </fbc:objective>
-      <fbc:objective/>
-      <fbc:objective fbc:id="pathway_entropy">
-        <fbc:listOfFluxObjectives>
-          <fbc:fluxObjective fbc:reaction="R_EX_A" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R_EX_D" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J0" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J1" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J2" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J3" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J4" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J5" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J6" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J7" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J8" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J9" fbc:coefficient="1"/>
-        </fbc:listOfFluxObjectives>
-      </fbc:objective>
-      <fbc:objective fbc:id="pathway_entropy">
-        <fbc:listOfFluxObjectives>
-          <fbc:fluxObjective fbc:reaction="R_EX_A" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R_EX_D" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J0" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J1" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J2" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J3" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J4" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J5" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J6" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J7" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J8" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J9" fbc:coefficient="1"/>
-        </fbc:listOfFluxObjectives>
-      </fbc:objective>
-      <fbc:objective fbc:id="pathway_entropy">
-        <fbc:listOfFluxObjectives>
-          <fbc:fluxObjective fbc:reaction="R_EX_A" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R_EX_D" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J0" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J1" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J2" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J3" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J4" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J5" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J6" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J7" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J8" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J9" fbc:coefficient="1"/>
-        </fbc:listOfFluxObjectives>
-      </fbc:objective>
-      <fbc:objective fbc:id="pathway_entropy">
-        <fbc:listOfFluxObjectives>
-          <fbc:fluxObjective fbc:reaction="R_EX_A" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R_EX_D" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J0" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J1" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J2" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J3" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J4" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J5" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J6" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J7" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J8" fbc:coefficient="1"/>
-          <fbc:fluxObjective fbc:reaction="R__J9" fbc:coefficient="1"/>
-        </fbc:listOfFluxObjectives>
+      <fbc:objective fbc:id="OptBoltzmann" fbc:type="maximize">
+	<fbc:listOfFluxObjectives>
+	  <fbc:fluxObjective fbc:reaction="R_EX_A" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R_EX_D" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J0" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J1" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J2" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J3" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J4" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J5" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J6" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J7" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J8" fbc:coefficient="1"/>
+	  <fbc:fluxObjective fbc:reaction="R__J9" fbc:coefficient="1"/>
+	</fbc:listOfFluxObjectives>
       </fbc:objective>
     </fbc:listOfObjectives>
   </model>

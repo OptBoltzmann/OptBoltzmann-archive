@@ -29,7 +29,10 @@ __all__ = """get_nullspace,
     get_target_log_variable_counts,
     get_fixed_log_counts,
     get_objective_reaction_identifiers,
-    get_params""".split(',')
+    get_params""".split(
+    ","
+)
+
 
 def get_nullspace(A, atol=1e-13, rtol=0):
     """Compute an approximate basis for the nullspace of A.
@@ -98,9 +101,10 @@ def get_stoichiometric_matrix(model: simplesbml.SbmlModel):
             st = int(productStoichiometry - reactantStoichiometry)
             stoich[i, j] = st
     return pd.DataFrame(
-                stoich, columns=[rxn[2:] for rxn in model.getListOfReactionIds()], 
-                index=[specie[2:] for specie in model.getListOfAllSpecies()]
-            )
+        stoich,
+        columns=[rxn[2:] for rxn in model.getListOfReactionIds()],
+        index=[specie[2:] for specie in model.getListOfAllSpecies()],
+    )
 
 
 def get_random_initial_variable_concentrations(model: simplesbml.SbmlModel) -> pd.Series:
@@ -383,7 +387,7 @@ def maximum_entropy_pyomo_relaxed(
     #############################
 
     def flux_null_rep(m, i):
-        """ flux null space representation constraint"""
+        """flux null space representation constraint"""
         return m.y[i] == sum(m.SvN[(i, j)] * m.beta[j] for j in m.beta_idx)
 
     m.fxnrep_cns = pe.Constraint(m.react_idx, rule=flux_null_rep)
@@ -442,7 +446,7 @@ def maximum_entropy_pyomo_relaxed(
     m.VarM_ub_cns = pe.Constraint(m.VarM_idx, rule=M_upper_cnstrnts)
 
     def M_lower_cnstrnts(m, i):
-        """"Lower constraints on big-M"""
+        """ "Lower constraints on big-M"""
         return m.VarM[i] >= VarM_lbnd
 
     m.VarM_lb_cns = pe.Constraint(m.VarM_idx, rule=M_lower_cnstrnts)
@@ -452,9 +456,9 @@ def maximum_entropy_pyomo_relaxed(
     # Maximum Entropy Production Objective with subset of reactions obj_rxn_idx
 
     def _Obj(m):
-        """"Set the Objective function
+        """ "Set the Objective function
 
-    # Maximum Entropy Production Objective with subset of reactions obj_rxn_idx"""
+        # Maximum Entropy Production Objective with subset of reactions obj_rxn_idx"""
         # return sum( m.y[j]  *  ( pe.log(m.K[j]) + sum( -m.S[(k,j)]*m.VarM[k] for k in m.VarM_idx ) + sum( -m.S[(w,j)]*m.FxdM[w] for w in m.FxdM_idx )    )    for j in m.obj_rxn_idx )
         ##sum_y = sum( m.y[j]  for j in m.obj_rxn_idx )
         ##return sum( (1 - m.y[j]/sum_y)*m.y[j]  for j in m.obj_rxn_idx )
