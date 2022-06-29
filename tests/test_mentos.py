@@ -2,7 +2,7 @@ import unittest
 
 import simplesbml, cobra, pathlib
 
-from mentos.maximum_entropy import get_params, maximum_entropy_pyomo_relaxed
+from OptBoltzmann.maximum_entropy import get_params, maximum_entropy_pyomo_relaxed
 
 
 class TestMaximumEntropy(unittest.TestCase):
