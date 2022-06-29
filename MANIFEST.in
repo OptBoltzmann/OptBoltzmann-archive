@@ -15,3 +15,6 @@ global-exclude *.py[cod] __pycache__ *.so *.dylib .DS_Store *.gpickle
 
 include README.md LICENSE
 exclude tox.ini .flake8 .bumpversion.cfg .readthedocs.yml
+
+recursive-include docs *.ipynb
+recursive-include models *.xml
