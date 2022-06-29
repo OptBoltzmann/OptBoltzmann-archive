@@ -98,7 +98,7 @@ def get_stoichiometric_matrix(model: simplesbml.SbmlModel):
             st = int(productStoichiometry - reactantStoichiometry)
             stoich[i, j] = st
     return pd.DataFrame(
-                stoich, columns=model.getListOfReactionIds(), index=model.getListOfSpecies()
+                stoich, columns=model.getListOfReactionIds(), index=model.getListOfAllSpecies()
             )
 
 
