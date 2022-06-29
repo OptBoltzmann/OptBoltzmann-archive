@@ -1,3 +1,6 @@
+
+"""Tests for maximum entropy"""
+
 import pathlib
 import unittest
 
