@@ -34,7 +34,7 @@ class TestMaximumEntropy(unittest.TestCase):
         for cobramodel, sbmlmodel in zip(self.cobramodels, self.sbmlmodels):
             expected = cobra.util.array.create_stoichiometric_matrix(cobramodel, array_type='DataFrame')
             actual = get_stoichiometric_matrix(sbmlmodel)
-            self.assertEqual(expected, actual)
+            self.assertTrue(expected.equals(actual))
 
     def test_get_random_initial_variable_concentrations(self):
         """Make sure the initial variable concentrations pass muster"""
