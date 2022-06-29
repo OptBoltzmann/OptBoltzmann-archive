@@ -78,7 +78,7 @@ def get_stoichiometric_matrix(model: simplesbml.SbmlModel):
     # Allocate space for the stoichiometry matrix
     stoich = np.zeros((model.getNumSpecies(), model.getNumReactions()))
     for i, speciesId in enumerate(model.getListOfAllSpecies()):
-        for j in range(model.getNumReactions()):
+        for j in model.getNumReactions():
             productStoichiometry = 0
             reactantStoichiometry = 0
 
@@ -98,7 +98,7 @@ def get_stoichiometric_matrix(model: simplesbml.SbmlModel):
             st = int(productStoichiometry - reactantStoichiometry)
             stoich[i, j] = st
     return pd.DataFrame(
-                stoich, columns=model.getListOfReactions(), index=model.getListOfSpecies()
+                stoich, columns=model.getListOfReactionIds(), index=model.getListOfSpecies()
             )
 
 
