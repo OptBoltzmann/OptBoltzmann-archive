@@ -13,3 +13,18 @@ multi_line_output = 3
 line_length = 100
 include_trailing_comma = true
 reverse_relative = true
+
+[tool.poetry]
+name = "OptBoltzmann"
+version = "0.1.0"
+description = "Maximum entropy production rate to predict regulation"
+authors = ["Bill Cannon <william.cannon@pnnl.gov>", "Ethan King <ethan.king@pnnl.gov>", "Jeremy Zucker <jeremy.zucker@pnnl.gov>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8 <3.11"
+Pyomo = "^6.4.1"
+simplesbml = "^2.3.0"
+scipy = "^1.8.1"
+ipopt = "^1.0.3"
+pandas = "^1.4.3"
+cobra = "^0.25.0"
