@@ -70,9 +70,9 @@ def get_nullspace(A, atol=1e-13, rtol=0):
     return ns
 
 
-def get_stoichiometric_matrix(model: simplesbml.SBMLModel):
+def get_stoichiometric_matrix(model: simplesbml.SbmlModel):
     """Allocate space for the stoichiometric matrix
-    :param model: simplesbml.SBMLModel
+    :param model: simplesbml.SbmlModel
     :return stoich: a Dataframe with nrxn columns and nspecies index.
     """
     # Allocate space for the stoichiometry matrix
